@@ -18,19 +18,30 @@ void setup() {
   pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
   pinMode(STBY, OUTPUT);
   
-Serial.begin(9600);
   // initialize the pushbutton pin as an input:
-  pinMode(buttonPin, INPUT_PULLUP);
+  //pinMode(buttonPin, INPUT_PULLUP);
 
   // Wait for the button to be pressed (LOW state indicates a press with INPUT_PULLUP)
-  while (digitalRead(buttonPin) == HIGH) {
+  //while (digitalRead(buttonPin) == HIGH) {
     // This loop does nothing until the button is pressed
-  }
+  //}
 
   digitalWrite(STBY, HIGH); // Enable motors
-  
+  moveForwardHalf();
+  turnLeft();
   moveForward();
   turnRight();
+  moveForward();
+  turnRight();
+  moveForward();
+  turnLeft();
+  moveForward();
+  turnLeft();
+  moveForward();
+  turnRight();
+  moveForward();
+  turnRight();
+  moveFoward();
 }
 
 void loop() {
@@ -39,6 +50,15 @@ void loop() {
 
 // --- Movement Functions ---
 
+void moveForwardHalf() {
+  analogWrite(ENA, driveSpeed);
+  analogWrite(ENB, driveSpeed);
+  digitalWrite(IN1, HIGH); digitalWrite(IN2, HIGH); // Left Forward
+  digitalWrite(IN3, HIGH);  digitalWrite(IN4, HIGH); // Right Forward
+  delay(forwardTime/2);  // Drive forward
+  stopCar();
+  delay(500);         // Short pause
+}
 void moveForward() {
   analogWrite(ENA, driveSpeed);
   analogWrite(ENB, driveSpeed);
