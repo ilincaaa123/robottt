@@ -18,21 +18,19 @@ void setup() {
   pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
   pinMode(STBY, OUTPUT);
   
-  digitalWrite(STBY, HIGH); // Enable motors
+Serial.begin(9600);
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonPin, INPUT_PULLUP);
 
-  // --- SEQUENCE ---
-  delay(2000);        // Wait 2 seconds so you can put it on the floor
+  // Wait for the button to be pressed (LOW state indicates a press with INPUT_PULLUP)
+  while (digitalRead(buttonPin) == HIGH) {
+    // This loop does nothing until the button is pressed
+  }
+
+  digitalWrite(STBY, HIGH); // Enable motors
   
   moveForward();
-  delay(forwardTime);  // Drive forward
-  
-  /* stopCar();
-  delay(500);         // Short pause
-  
   turnRight();
-  delay(turnTime);     // Execute turn
-  */
-  stopCar();          // Final stop
 }
 
 void loop() {
@@ -46,6 +44,9 @@ void moveForward() {
   analogWrite(ENB, driveSpeed);
   digitalWrite(IN1, HIGH); digitalWrite(IN2, HIGH); // Left Forward
   digitalWrite(IN3, HIGH);  digitalWrite(IN4, HIGH); // Right Forward
+  delay(forwardTime);  // Drive forward
+  stopCar();
+  delay(500);         // Short pause
 }
 
 void turnRight() {
@@ -54,6 +55,22 @@ void turnRight() {
   // To turn right: Left wheels forward, Right wheels backward
   digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);  // Left Forward
   digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);  // Right Backward
+  turnRight();
+  delay(turnTime);// Execute turn
+  stopCar();
+  delay(500);
+}
+
+void turnLeft() {
+  analogWrite(ENA, driveSpeed);
+  analogWrite(ENB, driveSpeed);
+  // To turn left: Left wheels backward, Right wheels forward
+  digitalWrite(IN1, LOW); digitalWrite(IN3, HIGH);  
+  digitalWrite(IN2, LOW); digitalWrite(IN4, HIGH);
+  turnLeft();
+  delay(turnTime);// Execute turn
+  stopCar();
+  delay(500);
 }
 
 void stopCar() {
