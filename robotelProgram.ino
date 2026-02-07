@@ -28,20 +28,13 @@ void setup() {
 
   digitalWrite(STBY, HIGH); // Enable motors
   moveForwardHalf();
-  turnLeft();
-  moveForward();
-  turnRight();
-  moveForward();
-  turnRight();
-  moveForward();
-  turnLeft();
-  moveForward();
-  turnLeft();
-  moveForward();
-  turnRight();
-  moveForward();
-  turnRight();
-  moveFoward();
+  turnLeftAndForward();
+  turnRightAndForward();
+  turnRightAndForward();
+  turnLeftAndForward();
+  turnLeftAndForward();
+  turnRightAndForward();
+  turnRightAndForward();
 }
 
 void loop() {
@@ -67,6 +60,16 @@ void moveForward() {
   delay(forwardTime);  // Drive forward
   stopCar();
   delay(500);         // Short pause
+}
+
+void turnRightAndForward() {
+  turnRight();
+  moveForward();
+}
+
+void turnLeftAndForward () {
+  turnleft();
+  moveForward();
 }
 
 void turnRight() {
