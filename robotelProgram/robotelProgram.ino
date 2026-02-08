@@ -10,7 +10,7 @@
 // --- Calibration Settings ---
 int driveSpeed = 200;     // Speed (0-255)
 int forwardTime = 2000;    // Time to move "a couple inches" (ms)
-int turnTime = 3000;       // Time to turn 90 degrees (ms) - Adjust this!
+int turnTime = 500;       // Time to turn 90 degrees (ms) - Adjust this!
 
 void setup() {
   pinMode(ENA, OUTPUT); pinMode(ENB, OUTPUT);
@@ -25,7 +25,6 @@ void setup() {
   //while (digitalRead(buttonPin) == HIGH) {
     // This loop does nothing until the button is pressed
   //}
-
   digitalWrite(STBY, HIGH); // Enable motors
   moveForwardHalf();
   turnLeftAndForward();
@@ -35,6 +34,7 @@ void setup() {
   turnLeftAndForward();
   turnRightAndForward();
   turnRightAndForward();
+
 }
 
 void loop() {
@@ -68,7 +68,7 @@ void turnRightAndForward() {
 }
 
 void turnLeftAndForward () {
-  turnleft();
+  turnLeft();
   moveForward();
 }
 
@@ -76,8 +76,8 @@ void turnRight() {
   analogWrite(ENA, driveSpeed);
   analogWrite(ENB, driveSpeed);
   // To turn right: Left wheels forward, Right wheels backward
-  digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);  // Left Forward
-  digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);  // Right Backward
+  digitalWrite(IN1, HIGH); digitalWrite(IN2, HIGH);  // Left Forward
+  digitalWrite(IN3, LOW); digitalWrite(IN4, LOW);  // Right Backward
   turnRight();
   delay(turnTime);// Execute turn
   stopCar();
@@ -88,8 +88,8 @@ void turnLeft() {
   analogWrite(ENA, driveSpeed);
   analogWrite(ENB, driveSpeed);
   // To turn left: Left wheels backward, Right wheels forward
-  digitalWrite(IN1, LOW); digitalWrite(IN3, HIGH);  
-  digitalWrite(IN2, LOW); digitalWrite(IN4, HIGH);
+  digitalWrite(IN1, LOW); digitalWrite(IN2, LOW);  
+  digitalWrite(IN3, HIGH); digitalWrite(IN4, HIGH);
   turnLeft();
   delay(turnTime);// Execute turn
   stopCar();
