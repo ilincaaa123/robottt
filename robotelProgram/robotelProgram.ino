@@ -30,19 +30,16 @@ void setup() {
 
   delay(2000);        // Wait 2 seconds so you can put it on the floor
 
-  turnRight();
-  delay(turnTime);     // Execute turn
+  moveForwardHalf();
+  turnLeftAndForward();
+  turnRightAndForward();
+  turnRightAndForward();
+  turnLeftAndForward();
+  turnLeftAndForward();
+  turnRightAndForward();
+  turnRightAndForward();
 
-  stopCar(); 
-  //moveForwardHalf();
-  //turnLeftAndForward();
-  /*turnRightAndForward();
-  turnRightAndForward();
-  turnLeftAndForward();
-  turnLeftAndForward();
-  turnRightAndForward();
-  turnRightAndForward();
-  */
+    stopCar(); 
 }
 
 void loop() {
