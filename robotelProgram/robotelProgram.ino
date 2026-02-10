@@ -8,9 +8,11 @@
 #define STBY 3   // Standby Pin
 
 // --- Calibration Settings ---
-int driveSpeed = 50;     // Speed (0-255)
-int forwardTime = 1000;    // Time to move "a couple inches" (ms)
-int turnTime = 900;       // Time to turn 90 degrees (ms) - Adjust this!
+int driveSpeed = 25;   
+int turnSpeed = 50; // Speed (0-255)
+int halfForwardTime = 6000;
+int forwardTime = 7400;   // Time to move "a couple inches" (ms)
+int turnTime = 1145;       // Time to turn 90 degrees (ms) - Adjust this!
 
 void setup() {
   pinMode(ENA, OUTPUT); pinMode(ENB, OUTPUT);
@@ -29,15 +31,20 @@ void setup() {
   digitalWrite(STBY, HIGH); // Enable motors
 
   delay(2000);        // Wait 2 seconds so you can put it on the floor
+    moveForwardHalf();
+    turnRightAndForward();
+    while(true){
+      turnLeftAndForward();
+      turnLeftAndForward();
+      turnLeftAndForward();
+      turnLeftAndForward();
+    }
+    
 
-  moveForwardHalf();
-  turnLeftAndForward();
-  turnRightAndForward();
-  turnRightAndForward();
-  turnLeftAndForward();
-  turnLeftAndForward();
-  turnRightAndForward();
-  turnRightAndForward();
+  //turnLeftAndForward();
+  //turnLeftAndForward();
+  //turnRightAndForward();
+  //turnRightAndForward();
 
     stopCar(); 
 }
@@ -53,7 +60,7 @@ void moveForwardHalf() {
   analogWrite(ENB, driveSpeed);
   digitalWrite(IN1, HIGH); digitalWrite(IN2, HIGH); // Left Forward
   digitalWrite(IN3, HIGH);  digitalWrite(IN4, HIGH); // Right Forward
-  delay(forwardTime/2);  // Drive forward
+  delay(halfForwardTime);  // Drive forward
   stopCar();
   delay(500);         // Short pause
 }
@@ -82,12 +89,13 @@ void turnRight() {
   
   digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);  // Right Backward
 
-  analogWrite(ENA, driveSpeed);
+  analogWrite(ENA, turnSpeed);
 
-  analogWrite(ENB, driveSpeed);
+  analogWrite(ENB, turnSpeed);
 
   delay(turnTime);// Execute turn
   stopCar();
+  delay(500);
 }
 
 void turnLeft() {
@@ -95,12 +103,13 @@ void turnLeft() {
   
   digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH);  // Right Backward
 
-  analogWrite(ENA, driveSpeed);
+  analogWrite(ENA, turnSpeed);
 
-  analogWrite(ENB, driveSpeed);
+  analogWrite(ENB, turnSpeed);
 
   delay(turnTime);// Execute turn
   stopCar();
+  delay(500);
 }
 
 void stopCar() {
