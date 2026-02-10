@@ -6,20 +6,28 @@
 #define IN3 9    // Right Direction 1
 #define IN4 11   // Right Direction 2
 #define STBY 3   // Standby Pin
-
 // --- Calibration Settings ---
 int driveSpeed = 25;   
 int turnSpeed = 50; // Speed (0-255)
 int halfForwardTime = 6000;
 int forwardTime = 7400;   // Time to move "a couple inches" (ms)
 int turnTime = 1145;       // Time to turn 90 degrees (ms) - Adjust this!
+const int bumpSensor = 2;
+bool hasStarted = false;
 
 void setup() {
+  pinMode(bumpSensor, INPUT_PULLUP);
   pinMode(ENA, OUTPUT); pinMode(ENB, OUTPUT);
   pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
   pinMode(STBY, OUTPUT);
+
+  digitalWrite(STBY, HIGH); // Enable motors
   
+
+  
+  delay(500); // Short pause before it takes off
+
   // initialize the pushbutton pin as an input:
   //pinMode(buttonPin, INPUT_PULLUP);
 
@@ -28,17 +36,16 @@ void setup() {
     // This loop does nothing until the button is pressed
   //}
 
-  digitalWrite(STBY, HIGH); // Enable motors
-
-  delay(2000);        // Wait 2 seconds so you can put it on the floor
-    moveForwardHalf();
+  //delay(2000);        // Wait 2 seconds so you can put it on the floor
+    /*moveForwardHalf();
     turnRightAndForward();
     while(true){
       turnLeftAndForward();
       turnLeftAndForward();
       turnLeftAndForward();
       turnLeftAndForward();
-    }
+    
+    }*/
     
 
   //turnLeftAndForward();
@@ -46,11 +53,21 @@ void setup() {
   //turnRightAndForward();
   //turnRightAndForward();
 
-    stopCar(); 
+    //stopCar(); 
 }
 
 void loop() {
-  // Empty - sequence runs once on startup
+  
+  if (digitalRead(bumpSensor) == HIGH) {
+    stopCar(); // Ensure motors are off
+    delay(10);    // Stability delay
+  }
+
+  if (digitalRead(bumpSensor) == LOW) {
+    moveForward();
+    //INCLUDE STUFF HERE YAYY
+  }
+
 }
 
 // --- Movement Functions ---
