@@ -2,13 +2,19 @@
 
 ## TODOS
 
-- add turn both turns
-- create sequence for example track
-- replace lithium battery to normal batteries
-- time # of sec per turn and move forward
-    - supplies 
-    - USB stick
-    - extra batteries
+- DONE add turn both turns
+- DONE create sequence for example track
+- DONE replace lithium battery to normal batteries
+- UNSURE time # of sec per turn and move forward
+    - supplies(paper, pencil, screwdriver) 
+    - DONE USB stick
+    - DONE extra batteries
     - calculator
-- control it w/ button
-- make robot waits for button press
+    - bring extention, computer and wires
+- DONE control it w/ button
+- DONE make robot waits for button press
+still left to do
+- final tweaks for turns + moving forward
+- calculate gate time
+- install gyrosensor (unsure)
+- attach dowel to front of robot
