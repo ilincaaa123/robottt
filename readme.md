@@ -14,7 +14,7 @@
 - DONE control it w/ button
 - DONE make robot waits for button press
 still left to do
-- final tweaks for turns + moving forward
+- DONE final tweaks for turns + moving forward
 - calculate gate time
 - install gyrosensor (unsure)
-- attach dowel to front of robot
+- DONE attach dowel to front of robot
