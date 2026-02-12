@@ -9,9 +9,9 @@
 // --- Calibration Settings ---
 int driveSpeed = 25;   
 int turnSpeed = 50; // Speed (0-255)
-int halfForwardTime = 4600;
-int forwardTime = 5650;   // Time to move "a couple inches" (ms)
-int turnTime = 878;       // Time to turn 90 degrees (ms) - Adjust this!
+int halfForwardTime = 4610;
+int forwardTime = 5680;   // Time to move "a couple inches" (ms)
+int turnTime = 930;       // Time to turn 90 degrees (ms) - Adjust this!
 const int bumpSensor = 2;
 bool hasStarted = false;
 
