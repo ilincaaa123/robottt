@@ -1,3 +1,8 @@
+#include <MPU6050_tockn.h>
+#include <Wire.h>
+
+MPU6050 mpu6050(Wire);
+
 // --- Pin Definitions (Standard for Elegoo v4.0) ---
 #define ENA 5    // Left Motor Speed
 #define ENB 6    // Right Motor Speed
@@ -8,14 +13,21 @@
 #define STBY 3   // Standby Pin
 // --- Calibration Settings ---
 int driveSpeed = 25;   
-int turnSpeed = 50; // Speed (0-255)
+int turnSpeed = 40; // Speed (0-255)
 int halfForwardTime = 4610;
 int forwardTime = 5680;   // Time to move "a couple inches" (ms)
 int turnTime = 930;       // Time to turn 90 degrees (ms) - Adjust this!
+int degreeAngle = 82;
 const int bumpSensor = 2;
 bool hasStarted = false;
 
 void setup() {
+
+  Wire.begin();
+  mpu6050.begin();
+
+  mpu6050.calcGyroOffsets(true) ;
+
   pinMode(bumpSensor, INPUT_PULLUP);
   pinMode(ENA, OUTPUT); pinMode(ENB, OUTPUT);
   pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
@@ -24,36 +36,8 @@ void setup() {
 
   digitalWrite(STBY, HIGH); // Enable motors
   
-
-  
   delay(500); // Short pause before it takes off
 
-  // initialize the pushbutton pin as an input:
-  //pinMode(buttonPin, INPUT_PULLUP);
-
-  // Wait for the button to be pressed (LOW state indicates a press with INPUT_PULLUP)
-  //while (digitalRead(buttonPin) == HIGH) {
-    // This loop does nothing until the button is pressed
-  //}
-
-  //delay(2000);        // Wait 2 seconds so you can put it on the floor
-    /*moveForwardHalf();
-    turnRightAndForward();
-    while(true){
-      turnLeftAndForward();
-      turnLeftAndForward();
-      turnLeftAndForward();
-      turnLeftAndForward();
-    
-    }*/
-    
-
-  //turnLeftAndForward();
-  //turnLeftAndForward();
-  //turnRightAndForward();
-  //turnRightAndForward();
-
-    //stopCar(); 
 }
 
 void loop() {
@@ -77,6 +61,55 @@ void loop() {
 
 // --- Movement Functions ---
 
+void turnLeftGyro(){
+  
+  mpu6050.update();
+  float startAngle = mpu6050.getAngleZ();
+
+  digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);  // Left Forward
+  
+  digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH);  // Right Backward
+
+  analogWrite(ENA, turnSpeed);
+
+  analogWrite(ENB, turnSpeed);
+
+  float currentAngle = startAngle;
+
+  while (abs(currentAngle - startAngle) < degreeAngle) {
+    mpu6050.update();
+    currentAngle = mpu6050.getAngleZ();
+  }  
+  
+  stopCar();
+  delay(500);
+}
+
+
+void turnRightGyro(){
+  mpu6050.update();
+  float startAngle = mpu6050.getAngleZ();
+
+  digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH);  // Left Forward
+  
+  digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);  // Right Backward
+
+  analogWrite(ENA, turnSpeed);
+
+  analogWrite(ENB, turnSpeed);
+
+  float currentAngle = startAngle;
+
+  while (abs(currentAngle - startAngle) < degreeAngle) {
+    mpu6050.update();
+    currentAngle = mpu6050.getAngleZ();
+  }  
+  
+  stopCar();
+  delay(500);
+}
+
+
 void moveForwardHalf() {
   analogWrite(ENA, driveSpeed);
   analogWrite(ENB, driveSpeed);
@@ -97,12 +130,12 @@ void moveForward() {
 }
 
 void turnRightAndForward() {
-  turnRight();
+  turnRightGyro();
   moveForward();
 }
 
 void turnLeftAndForward () {
-  turnLeft();
+  turnLeftGyro();
   moveForward();
 }
 
